@@ -1,0 +1,19 @@
+version: "1"
+services:
+  database:
+    image: "postgis/postgis:15-3.3-alpine"
+    ports:
+      - "55432:5432"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - "./postgresql:/var/lib/postgresql/data/"
+  backend:
+    build: ./geodjango
+    command: "python ./geodjango/manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ".:/var/www/geodjango"
+    depends_on:
+      - database
