@@ -1,7 +1,7 @@
 # Pull base image
-FROM python:3.10.11-alpine
+FROM ghcr.io/osgeo/gdal:alpine-normal-latest
 
-RUN apk add build-base postgresql-client postgresql-dev
+RUN apk add build-base py3-pip python3-dev libpq-dev
 
 # Set environment variables
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1

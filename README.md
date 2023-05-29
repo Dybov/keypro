@@ -1,7 +1,6 @@
 # Initial task
 ## Applicant code test assignment
-Make a (Geo)Django application for creating and moving point objects on map. For DB you might want to use PostGIS (PostgreSQL) or SQLite. For frontend you might want to use Leaflet or OpenLayers (they are supported by majority of frontend frameworks – ReactJS, Vue, Angular – though framework usage is not mandated, you can do it even in javascript or using jQuery). You are not limited in the tools or 
-components you are using. 
+Make a (Geo)Django application for creating and moving point objects on map. For DB you might want to use PostGIS (PostgreSQL) or SQLite. For frontend you might want to use Leaflet or OpenLayers (they are supported by majority of frontend frameworks – ReactJS, Vue, Angular – though framework usage is not mandated, you can do it even in javascript or using jQuery). You are not limited in the tools or components you are using. 
 ## Application basic functionality
 Application user main screen is map. User should be able to scroll the map (extent of the map is not important), to create point on a map by clicking on map pane, update positions of points he created by dragging them.
 
