@@ -15,6 +15,10 @@
   </head>
   <body>
     <div id="map"></div>
+    <script>
+      const points = JSON.parse("{{ points|escapejs }}");
+      const user_id = {{ user_id }};
+    </script>
     <script src="{% static 'interactive_points/map.js' %}" defer></script>
   </body>
 </html>

@@ -19,3 +19,7 @@ class PointAdmin(gis_admin.GISModelAdmin):
     :vartype list_display: tuple
     """
     list_display = ('location', 'owned_by')
+    gis_widget_kwargs = {'attrs': {
+        'default_lon': 29.76316,
+        'default_lat': 62.60118,
+    }}
