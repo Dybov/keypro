@@ -21,30 +21,41 @@ for (const mrkr of points.features) {
  * @param {Event} e - The click event.
  */
 function onMapClick(e) {
+    const {lat, lng} = e.latlng;
     popup
         .setLatLng(e.latlng)
         .setContent(`
             <p>You clicked the Map at ${e.latlng.toString()}</p>
-            <button onclick="createNewMarker()">Create Point</button>
+            <button onclick="createNewMarker(${lat}, ${lng})">Create Point</button>
         `)
         .openOn(map);
 }
 
+let RESPONSE;
 /**
  * Create a new Point at backend and Marker in case of success.
  */
-async function createNewMarker() {
+async function createNewMarker(latitude, longitude) {
     let response;
     let error_message = "Could not create this Point";
     try {
-        response = await fetch('/points/create/', options={method: "POST"});
+        response = await fetch('/create/', options={
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                latitude: latitude,
+                longitude: longitude
+            })
+        });
     } catch (error) {
         error_message = "Could not create Point because of error " + error;
     }
 
     if (response && response.ok) {
-        const {id, latitude, longitude} = response.json();
+        let {id} = await response.json();
+        RESPONSE = response
         const marker = createMarkerByParams(id, latitude, longitude, true);
+        popup.close();
     } else {
         alert(error_message);
     }
@@ -84,7 +95,7 @@ function bindMarkerPopup(marker) {
     marker.bindPopup(`
     <div>
         <p>This Point coordinates are ${marker.getLatLng().toString()}</p>
-        <button onclick="">Delete</button>
+        <button onclick="deleteMarker(${marker.id})">Delete</button>
     </div>`)
 }
 
@@ -124,8 +135,8 @@ async function updateMarker(id) {
     const position = marker.getLatLng();
 
     try {
-        response = await fetch('/points/update/' + marker.id, {
-            method: 'POST',
+        response = await fetch('/update/' + marker.id + "/", {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 latitude: position.lat,
@@ -158,4 +169,38 @@ async function cancelMove(id) {
     marker.closePopup();
     marker.setLatLng(marker.savedLatLng);
     bindMarkerPopup(marker);
+}
+
+/**
+ * Delete a marker with the specified ID.
+ * 
+ * @param {string} id - The ID of the marker to delete.
+ */
+async function deleteMarker(id) {
+
+    let response;
+    let error_message = "You cannot delete this point";
+    const marker = markers[id];
+    // Prevent from dragging until changes applied
+    marker.dragging.disable();
+    // Prevent from clicking on map
+    await new Promise(r => setTimeout(r, 100));
+    marker.getPopup().off('remove').setContent("Deleting...")
+
+    try {
+        response = await fetch('/delete/' + marker.id + "/", {
+            method: 'DELETE',
+        });
+    } catch (error) {
+        error_message = "Error on request " + error;
+    }
+
+    if (response && response.ok) {
+        map.removeLayer(marker)
+        delete markers[id]; 
+    } else {
+        alert(error_message);
+        marker.dragging.enable();
+        bindMarkerPopup(marker);
+    }
 }
