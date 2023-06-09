@@ -66,9 +66,9 @@ By default app would be running on 8000 port of localhost, so ensure it's open o
     be configuring, so the orientir would be message that database system is
     ready to accept connections), do not close it, and in another
     terminal/command line run command in the project folder run next commands:
-        * `docker compose exec backend python geodjango/manage.py migrate`
-        * `docker compose exec backend python geodjango/manage.py createsuperuser`
-            and answer prompts
+* `docker compose exec backend python geodjango/manage.py migrate`
+* `docker compose exec backend python geodjango/manage.py createsuperuser`
+    and answer prompts
 * Then kill docker compose (Ctrl/command + C)
 * And start it again `docker compose up`
 
