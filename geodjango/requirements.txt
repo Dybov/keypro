@@ -1,3 +1,4 @@
 Django==4.2.1
 psycopg2==2.9.6
-GDAL==3.8.0
+GDAL==3.7.0
+tzdata==2023.3
