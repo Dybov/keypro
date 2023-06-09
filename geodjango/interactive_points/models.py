@@ -15,11 +15,15 @@ class Point(models.Model):
 
     created_by = models.ForeignKey(
         User,
+        null=True,
+        blank=True,
         related_name="created_by_user",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
     )
     owned_by = models.ForeignKey(
         User,
+        null=True,
+        blank=True,
         related_name="owned_by_user",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
     )

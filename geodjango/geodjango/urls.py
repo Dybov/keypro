@@ -22,7 +22,7 @@ urlpatterns = [
     path("", include("interactive_points.urls")),
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.LoginView.as_view(
-        template_name='registration/login.html',
-        redirect_field_name='index'), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='registration/logged_out.html'), name='logout'),
+        template_name='registration/login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(
+        template_name='registration/logged_out.html'), name='logout'),
 ]
